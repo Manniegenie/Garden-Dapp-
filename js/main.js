@@ -243,17 +243,26 @@ document.addEventListener('DOMContentLoaded', function() {
     const walletModal = document.getElementById('walletModal');
     const closeButton = document.querySelector('.wallet-close-button');
     const walletOptions = document.querySelectorAll('.wallet-option');
-    
+    const notConnect = document.getElementById("notConnect");
+    const connected = document.getElementById("connected");
+
     // Function to connect Solana wallet
     async function connectSolanaWallet() {
+
       if (window.solana && window.solana.isPhantom) {
         try {
           const response = await window.solana.connect();
           const walletAddress = response.publicKey.toString();
           console.log("Connected Solana wallet:", walletAddress);
           
+          
           // You can update UI here to show connected state
           alert(`Successfully connected Phantom wallet: ${walletAddress.slice(0, 4)}...${walletAddress.slice(-4)}`);
+
+                // Hide "Connect Wallet" text and show wallet address
+                notConnect.style.display = "none";
+                connected.style.display = "block";
+                connected.textContent = `${walletAddress.slice(0, 4)}...${walletAddress.slice(-4)}`;
           return walletAddress;
         } catch (err) {
           console.error("Wallet connection failed:", err);
